@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8dce9">
+<title>A Little Surprise 🎀</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:18px;overflow:hidden;
+font-family:Georgia,"Times New Roman",serif;color:#75465f;
+background:radial-gradient(circle at 15% 15%,#fff8fc 0 9%,transparent 28%),
+radial-gradient(circle at 85% 80%,#dcecff 0 8%,transparent 30%),linear-gradient(135deg,#f9dce9,#e8e9ff 55%,#fce8f1)}
+.glow{position:fixed;width:270px;height:270px;border-radius:50%;background:#fff;filter:blur(70px);opacity:.48;pointer-events:none}
+.one{top:-100px;left:-80px}.two{bottom:-110px;right:-70px;background:#b9d7ff}
+.card{position:relative;z-index:1;width:min(92%,440px);padding:30px 24px;text-align:center;border-radius:28px;
+background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9);box-shadow:0 18px 55px rgba(126,76,111,.15);backdrop-filter:blur(12px)}
+.tag{font:12px Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#a66d8c}
+h1{margin:12px 0;color:#b44f83;font-size:clamp(28px,7vw,40px)}
+p{line-height:1.7;font-size:16px;margin:10px 0 20px}
+.chest{font-size:88px;display:block;margin:14px auto 8px;filter:drop-shadow(0 9px 12px #c78aaa44);transition:transform .35s}
+.chest.open{transform:scale(1.13) rotate(-5deg)}
+input{width:min(100%,250px);padding:13px 16px;border:1px solid #e8bad1;border-radius:999px;text-align:center;font-size:18px;letter-spacing:5px;color:#75465f;background:#fff9fc;outline:none}
+button{border:0;border-radius:999px;padding:13px 22px;cursor:pointer;color:white;font-size:15px;font-weight:bold;background:linear-gradient(110deg,#df78a9,#9a9ee8);box-shadow:0 8px 20px #b1689f40;margin:8px 4px}
+button:active{transform:scale(.97)}
+.hidden{display:none!important}
+.error{color:#b44f83;font:13px Arial,sans-serif;min-height:20px;margin-top:8px}
+.letter{background:#fff9fc;border:1px solid #f1d5e3;border-radius:18px;padding:22px 16px;margin:16px 0;box-shadow:0 8px 25px #c78aaa22}
+.letter-icon{font-size:45px}
+.letter h2{color:#b44f83;margin:8px 0 12px}
+.heart{position:fixed;z-index:3;pointer-events:none;font-size:22px;animation:floatUp 2.2s ease-out forwards}
+@keyframes floatUp{from{transform:translateY(0) scale(.6) rotate(0);opacity:1}to{transform:translateY(-75vh) scale(1.4) rotate(25deg);opacity:0}}
+.small{font:12px Arial,sans-serif;color:#a47b91;margin-top:18px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="glow one"></div><div class="glow two"></div>
+<main class="card">
+  <div class="tag">A tiny surprise awaits</div>
+  <section id="lock">
+    <span class="chest" id="chest">🧰💗</span>
+    <h1>Hey, Ekra! 🎀</h1>
+    <p>A little treasure is waiting for you.<br>Can you unlock it?</p>
+    <input id="password" type="password" inputmode="numeric" maxlength="5" placeholder="Password" aria-label="Password">
+    <br><button id="unlock">Unlock the Chest 🔐</button>
+    <div class="error" id="error" aria-live="polite"></div>
+    <p class="small">Hint: A special day belonging to someone who made this surprise…</p>
+  </section>
+  <section id="reveal" class="hidden">
+    <span class="chest open">🧰✨💗</span>
+    <div class="letter">
+      <div class="letter-icon">💌</div>
+      <h2>A special gift for a special person</h2>
+      <p>You found it! There's a little birthday surprise made with care, just for you. 🌸</p>
+    </div>
+    <button id="open">Open your surprise 🎁</button>
+  </section>
+  <div class="small">Made with birthday wishes ♡</div>
+</main>
+<script>
+const lock=document.getElementById('lock');
+const reveal=document.getElementById('reveal');
+const pass=document.getElementById('password');
+const error=document.getElementById('error');
+function burst(){
+  const symbols=['💗','💕','♡','✨','🌸','🎀'];
+  for(let i=0;i<28;i++){
+    const item=document.createElement('span');item.className='heart';
+    item.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    item.style.left=(8+Math.random()*84)+'vw';item.style.top=(55+Math.random()*25)+'vh';
+    item.style.animationDelay=(Math.random()*.45)+'s';document.body.appendChild(item);
+    setTimeout(()=>item.remove(),2800);
+  }
+}
+function unlock(){
+  if(pass.value==='13910'){
+    error.textContent='';document.getElementById('chest').classList.add('open');
+    burst();lock.classList.add('hidden');reveal.classList.remove('hidden');
+  }else{error.textContent='Hmm… that password didn’t unlock it. Try again 💗';pass.select();}
+}
+document.getElementById('unlock').addEventListener('click',unlock);
+pass.addEventListener('keydown',e=>{if(e.key==='Enter')unlock();});
+document.getElementById('open').addEventListener('click',()=>{window.location.href='index.html';});
+</script>
+</body>
+</html>
